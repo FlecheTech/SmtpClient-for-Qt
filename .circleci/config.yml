@@ -9,22 +9,22 @@ jobs:
     # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
     # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
     docker:
-      - image: cimg/base:edge
+      - image: cimg/base:current-22.04
     # Add steps to the job
     # See: https://circleci.com/docs/2.0/configuration-reference/#steps
     steps:
       - checkout
-      - run: apt install -qq && apt -y -q install build-essential qt6-base-dev
+      - run: |
+          sudo apt -qq update
+          sudo apt -yq install qt6-base-dev
       - run: mkdir -p ~/build-SMTPEmail
-      - run: qmake src/SMTPEmail.pro -o ~/build-SMTPEmail/Makefile
+      - run: /usr/lib/qt6/bin/qmake src/SMTPEmail.pro -o ~/build-SMTPEmail/Makefile
       - run: cd ~/build-SMTPEmail
       - run: make
       - store_artifacts:
           path: ~/build-SMTPEmail/*.{so*,a}
           destination: SmtpClient-for-Qt-linux
     working_directory: ~/project
-    environment:
-      PATH: /usr/lib/qt6/bin:$PATH
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
