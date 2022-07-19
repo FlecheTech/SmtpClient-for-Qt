@@ -29,9 +29,27 @@ jobs:
           destination: SmtpClient-for-Qt-linux
     working_directory: ~/project
 
+  macos:
+    macos:
+      xcode: "12.5.1"
+    steps:
+      - checkout
+      - run: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+      - run: brew install qt
+      - run: |
+          qmake src/SMTPEmail.pro -o ~/build-SMTPEmail/Makefile
+          cd ~/build-SMTPEmail
+          make
+          rm -f .qmake.stash Makefile *.{cpp,h,o}
+      - store_artifacts:
+          path: ~/build-SMTPEmail
+          destination: SmtpClient-for-Qt-macos
+    working_directory: ~/project
+
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
   smtpclient-workflow:
     jobs:
       - linux
+      - macos
