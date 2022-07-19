@@ -37,7 +37,6 @@ jobs:
       xcode: "12.5.1"
     steps:
       - checkout
-      - run: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
       - run: brew install qt
       - run: |
           qmake src/SMTPEmail.pro -o ~/build-SMTPEmail/Makefile
