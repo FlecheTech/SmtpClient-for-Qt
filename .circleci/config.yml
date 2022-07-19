@@ -51,13 +51,13 @@ jobs:
     executor: win/default
     steps:
       - checkout
-      - run: choco install qtcreator -y
+      - run: python -m pip install -U aqtinstall
+      - run: python -m aqt install 6.2.4 windows desktop win64_msvc2019
       - run: |
-          RefreshEnv.cmd
           qmake src/SMTPEmail.pro -o ~/build-SMTPEmail/Makefile
           cd ~/build-SMTPEmail
           nmake
-          rm -f .qmake.stash Makefile *.cpp *.h *.o
+          rm -Force .qmake.stash Makefile *.cpp *.h *.o
       - store_artifacts:
           path: ~/build-SMTPEmail
           destination: SmtpClient-for-Qt-win
