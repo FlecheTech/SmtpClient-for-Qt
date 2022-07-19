@@ -20,7 +20,6 @@ jobs:
       - run: |
           sudo apt -qq update
           sudo apt -yq install qt6-base-dev
-      - run: mkdir -p ~/build-SMTPEmail
       - run: |
           PATH="/usr/lib/qt6/bin:$PATH"
           qmake src/SMTPEmail.pro -o ~/build-SMTPEmail/Makefile
@@ -54,7 +53,9 @@ jobs:
       - checkout
       - run: choco install qtcreator -y
       - run: |
+          RefreshEnv.cmd
           qmake src/SMTPEmail.pro -o ~/build-SMTPEmail/Makefile
+          cd ~/build-SMTPEmail
           nmake
           rm -f .qmake.stash Makefile *.cpp *.h *.o
       - store_artifacts:
