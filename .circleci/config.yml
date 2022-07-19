@@ -2,6 +2,9 @@
 # See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
 
+orbs:
+  win: circleci/windows@4.1
+
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
@@ -46,6 +49,20 @@ jobs:
           destination: SmtpClient-for-Qt-macos
     working_directory: ~/project
 
+  windows:
+    executor: win/default
+    steps:
+      - checkout
+      - run: choco install qtcreator -y
+      - run: |
+          qmake src/SMTPEmail.pro -o ~/build-SMTPEmail/Makefile
+          nmake
+          rm -f .qmake.stash Makefile *.cpp *.h *.o
+      - store_artifacts:
+          path: ~/build-SMTPEmail
+          destination: SmtpClient-for-Qt-win
+    working_directory: ~/project
+
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
@@ -53,3 +70,4 @@ workflows:
     jobs:
       - linux
       - macos
+      - windows
