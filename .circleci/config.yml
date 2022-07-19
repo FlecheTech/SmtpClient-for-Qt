@@ -45,6 +45,8 @@ jobs:
       - store_artifacts:
           path: ~/build-SMTPEmail
           destination: SmtpClient-for-Qt-macos
+    environment:
+      HOMEBREW_NO_AUTO_UPDATE: "1"
     working_directory: ~/project
 
   windows:
