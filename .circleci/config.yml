@@ -23,8 +23,9 @@ jobs:
           qmake src/SMTPEmail.pro -o ~/build-SMTPEmail/Makefile
           cd ~/build-SMTPEmail
           make
+          rm -f .qmake.stash Makefile *.{cpp,h,o}
       - store_artifacts:
-          path: ~/build-SMTPEmail/*.{so*,a}
+          path: ~/build-SMTPEmail
           destination: SmtpClient-for-Qt-linux
     working_directory: ~/project
 
