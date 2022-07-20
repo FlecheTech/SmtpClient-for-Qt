@@ -56,8 +56,9 @@ jobs:
       - run: python -m pip install -U aqtinstall
       - run: python -m aqt install-qt windows desktop 6.2.4 win64_msvc2019_64
       - run: |
-          Import-Module "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\Tools\Microsoft.VisualStudio.DevShell.dll"
-          Enter-VsDevShell 0d83095a -SkipAutomaticLocation -DevCmdArguments "-arch=x64 -host_arch=x64"
+          $installPath = &"C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe" -version 16.0 -property installationpath
+          Import-Module (Join-Path $installPath "Common7\Tools\Microsoft.VisualStudio.DevShell.dll")
+          Enter-VsDevShell -VsInstallPath $installPath -SkipAutomaticLocation -DevCmdArguments "-arch=x64 -host_arch=x64"
       - run: |
           $env:Path = "$PWD\6.2.4\msvc2019_64\bin;$env:Path"
           qmake src/SMTPEmail.pro -o ~/build-SMTPEmail/Makefile
