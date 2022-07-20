@@ -60,8 +60,8 @@ jobs:
           Import-Module (Join-Path $installPath "Common7\Tools\Microsoft.VisualStudio.DevShell.dll")
           Enter-VsDevShell -VsInstallPath $installPath -SkipAutomaticLocation -DevCmdArguments "-arch=x64 -host_arch=x64"
           $env:Path = "$PWD\6.2.4\msvc2019_64\bin;$env:Path"
-          qmake src/SMTPEmail.pro -o ~/build-SMTPEmail/Makefile
-          cd ~/build-SMTPEmail
+          qmake src/SMTPEmail.pro -o ../build-SMTPEmail/Makefile
+          cd ../build-SMTPEmail
           nmake
           cd release
           rm -Force .qmake.stash Makefile *.cpp *.h *.obj
