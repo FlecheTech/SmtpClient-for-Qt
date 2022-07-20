@@ -8,6 +8,29 @@ orbs:
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
+  test:
+    # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
+    # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
+    docker:
+      - image: cimg/base:current-22.04
+    # Add steps to the job
+    # See: https://circleci.com/docs/2.0/configuration-reference/#steps
+    steps:
+      - checkout
+      - run: |
+          sudo apt -qq update
+          sudo apt -yq install qt6-base-dev
+      - run: |
+          PATH="/usr/lib/qt6/bin:$PATH"
+          mkdir build && cd build
+          qmake ../test/test.pro
+          make
+      - run: chmod +x test
+      - run: ./test > test-result
+      - store_test_results:
+          path: ~/project/test-result
+    working_directory: ~/project
+
   linux:
     # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
     # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
@@ -75,7 +98,7 @@ jobs:
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
-  smtpclient-workflow:
+  build:
     jobs:
       - linux
       - macos
