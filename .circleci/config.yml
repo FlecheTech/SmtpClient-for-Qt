@@ -2,9 +2,6 @@
 # See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
 
-orbs:
-  win: circleci/windows@4.1
-
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
@@ -50,7 +47,9 @@ jobs:
     working_directory: ~/project
 
   windows:
-    executor: win/default
+    resource_class: windows.medium
+    machine:
+      image: windows-server-2022-gui:current
     shell: powershell.exe -NoExit -Command \"&{Import-Module \"\"\"C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\Common7\\Tools\\Microsoft.VisualStudio.DevShell.dll\"\"\"; Enter-VsDevShell 0d83095a -SkipAutomaticLocation -DevCmdArguments \"\"\"-arch=x64 -host_arch=x64\"\"\"}\"
     steps:
       - checkout
