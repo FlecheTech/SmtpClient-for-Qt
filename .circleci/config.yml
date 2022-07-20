@@ -20,9 +20,10 @@ jobs:
       - run: |
           sudo apt -qq update
           sudo apt -yq install qt6-base-dev
-      - run: qmake -project
-      - run: qmake src/SMTPEmail.pro
-      - run: make
+      - run: |
+          PATH="/usr/lib/qt6/bin:$PATH"
+          qmake -project
+          make
       - run: chmod +x test
       - run: ./test > test-result
       - store_test_results:
