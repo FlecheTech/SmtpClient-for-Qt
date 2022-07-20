@@ -22,12 +22,13 @@ jobs:
           sudo apt -yq install qt6-base-dev
       - run: |
           PATH="/usr/lib/qt6/bin:$PATH"
-          qmake test/test.pro
+          qmake ../test/test.pro -o build/Makefile
           make
       - run: chmod +x test
       - run: ./test > test-result
       - store_test_results:
           path: ~/project/test-result
+    working_directory: ~/project/build
 
   linux:
     # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
