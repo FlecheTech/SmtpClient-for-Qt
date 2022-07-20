@@ -64,7 +64,7 @@ jobs:
           cd ../build-SMTPEmail
           nmake
           cd release
-          rm -Force .qmake.stash Makefile *.cpp *.h *.obj
+          rm -Force *.cpp *.h *.obj
       - store_artifacts:
           path: ~/build-SMTPEmail/release
           destination: SmtpClient-for-Qt-win
