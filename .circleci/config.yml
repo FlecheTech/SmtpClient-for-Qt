@@ -22,7 +22,7 @@ jobs:
           sudo apt -yq install qt6-base-dev
       - run: |
           PATH="/usr/lib/qt6/bin:$PATH"
-          qmake ../test/test.pro -o build/Makefile
+          qmake ~/project/test/test.pro -o Makefile || pwd
           make
       - run: chmod +x test
       - run: ./test > test-result
